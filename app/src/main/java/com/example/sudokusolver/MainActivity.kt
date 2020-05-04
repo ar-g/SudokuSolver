@@ -16,6 +16,7 @@ import androidx.ui.unit.dp
 
 //todo Ask misha and sergei to review your tech test
 //todo leave todo comments about siliness of some things
+//todo leave some comments as it is for now
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
