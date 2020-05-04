@@ -8,4 +8,6 @@
   <color name="green">#00FF41</color>
   <color name="green2">#00fa01</color>
   <color name="black">#000000</color>
+  <color name="grey">#424242</color>
+  <color name="dark_grey">#1b1b1b</color>
 </resources>
