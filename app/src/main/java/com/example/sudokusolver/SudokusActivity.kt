@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.liveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sudokusolver.databinding.ActivitySudokusBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -30,15 +32,32 @@ import java.lang.Exception
 //todo how many entities you wanna have for each layer, ask kaushik
 
 //todo progress,error etc.
+//todo material paddings and so on
+//todo dark mode?
+//todo swipe refresh layout as a progress
 class SudokusActivity : AppCompatActivity() {
+
+    private lateinit var sudokuAdapter: SudokuAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_sudokus)
+        val binding = ActivitySudokusBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        sudokuAdapter = SudokuAdapter {
+            //todo intent
+        }
+
+        binding.rv.apply {
+            layoutManager = LinearLayoutManager(this@SudokusActivity)
+            adapter = sudokuAdapter
+        }
 
         val model: SudokusViewModel by viewModels()
         model.getPuzzles().observe(this, Observer { puzzles ->
-            findViewById<TextView>(R.id.tv).text = puzzles.toString()
+            val models = puzzles.map { SudokuModel(it.name) }
+            sudokuAdapter.setData(models)
         })
     }
 }
@@ -71,3 +90,31 @@ interface Api {
 }
 
 //todo objects and wiring
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
