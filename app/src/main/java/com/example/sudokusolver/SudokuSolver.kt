@@ -1,14 +1,23 @@
 package com.example.sudokusolver
 
+import kotlinx.coroutines.GlobalScope
+
+//todo rewrite in courutines fashion
+//todo rewrite in flow fashion
+
+
+
 typealias OnSudokuBoardChanged = (board: List<List<Int>>) -> Unit
 //todo ObservableList vs Callback vs Flow or courutines?
 //todo Cancelling sudoku solving via courutines?
+
+//todo invalid sudoku handling is omitted for now
 class SudokuSolver() {
 
     //todo threadSafety if many of them will be called copy ObservableList scheme
     private var sudokuBoardChangedListener: OnSudokuBoardChanged? = null
 
-    fun solve(board: List<List<Int>>, sudokuBoardChangedListener: OnSudokuBoardChanged) {
+    suspend fun solve(board: List<List<Int>>, sudokuBoardChangedListener: OnSudokuBoardChanged) {
         this.sudokuBoardChangedListener = sudokuBoardChangedListener
 
         //todo waste
@@ -19,7 +28,7 @@ class SudokuSolver() {
 
 
     //todo caution regarding modifying original list
-    fun partiallySolve(curI: Int, curJ: Int, board: MutableList<MutableList<Int>>): Boolean {
+    suspend fun partiallySolve(curI: Int, curJ: Int, board: MutableList<MutableList<Int>>): Boolean {
         if (curI > board.lastIndex) {
             return true//end of array and valid return true
         }
@@ -74,7 +83,7 @@ class SudokuSolver() {
             if (i != curI && board[i][curJ] == curNum) return false
         }
         //validate subarray
-        val subI = curI / 3 * 3 //todo: looks silly, constant
+        val subI = curI / 3 * 3
         val subJ = curJ / 3 * 3
         for (i in subI..subI + 2) {
             for (j in subJ..subJ + 2) {

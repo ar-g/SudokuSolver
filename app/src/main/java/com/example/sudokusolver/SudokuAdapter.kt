@@ -2,25 +2,17 @@ package com.example.sudokusolver
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.example.sudokusolver.databinding.SudokuItemBinding
 
-import com.example.sudokusolver.dummy.DummyContent.DummyItem
-
-//todo diffing
-data class SudokuModel(val name: String)
-
 class SudokuAdapter(private val itemClick: (SudokuModel) -> Unit) :
-    RecyclerView.Adapter<PostsViewHolder>() {
+    RecyclerView.Adapter<SudokuViewHolder>() {
 
     private val data = mutableListOf<SudokuModel>()
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SudokuViewHolder {
         val binding = SudokuItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val postsViewHolder = PostsViewHolder(binding)
+        val postsViewHolder = SudokuViewHolder(binding)
 
         binding.root.setOnClickListener {
             val position = postsViewHolder.adapterPosition
@@ -36,7 +28,7 @@ class SudokuAdapter(private val itemClick: (SudokuModel) -> Unit) :
         return data.size
     }
 
-    override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SudokuViewHolder, position: Int) {
         holder.bind(data[position])
     }
 
@@ -49,10 +41,11 @@ class SudokuAdapter(private val itemClick: (SudokuModel) -> Unit) :
     }
 }
 
-class PostsViewHolder(private val sudokuItemBinding: SudokuItemBinding)
+class SudokuViewHolder(private val sudokuItemBinding: SudokuItemBinding)
     : RecyclerView.ViewHolder(sudokuItemBinding.root) {
 
     fun bind(model: SudokuModel) {
         sudokuItemBinding.tvName.text = model.name
+        sudokuItemBinding.sudokuView.sudokuState = model.sudoku
     }
 }

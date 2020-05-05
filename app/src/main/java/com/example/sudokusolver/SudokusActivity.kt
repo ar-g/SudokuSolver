@@ -1,5 +1,6 @@
 package com.example.sudokusolver
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
@@ -35,6 +36,11 @@ import java.lang.Exception
 //todo material paddings and so on
 //todo dark mode?
 //todo swipe refresh layout as a progress
+
+//todo recycling? of sudoku views
+//todo diffing
+
+//todo SavedStateViewModelFactory
 class SudokusActivity : AppCompatActivity() {
 
     private lateinit var sudokuAdapter: SudokuAdapter
@@ -45,8 +51,11 @@ class SudokusActivity : AppCompatActivity() {
         val binding = ActivitySudokusBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sudokuAdapter = SudokuAdapter {
-            //todo intent
+        //todo improve? only UI tests
+        sudokuAdapter = SudokuAdapter { model ->
+            val intent = Intent(this, SudokuSolverActivity::class.java)
+                .putExtra(SudokuSolverActivity.BUNDLE_KEY, model)
+            startActivity(intent)
         }
 
         binding.rv.apply {
@@ -55,8 +64,14 @@ class SudokusActivity : AppCompatActivity() {
         }
 
         val model: SudokusViewModel by viewModels()
+
         model.getPuzzles().observe(this, Observer { puzzles ->
-            val models = puzzles.map { SudokuModel(it.name) }
+            val models = puzzles.map {
+                SudokuModel(
+                    it.id, it.name, SudokuParser().parse(it.puzzle)
+                )
+            }
+
             sudokuAdapter.setData(models)
         })
     }

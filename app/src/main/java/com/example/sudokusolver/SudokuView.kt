@@ -12,10 +12,10 @@ import kotlin.math.min
 
 class SudokuView : View {
     private lateinit var textPaint: TextPaint
-    private var cell: Float = 0f
-    private var halfCell: Float = 0f
-    private var boardTop: Int = 0
-    private var topPadding = 16.dpToPx()
+    private var cell = 0f
+    private var halfCell = 0f
+    private var boardTop = 0
+    private var topPadding = 0f
     var sudokuState: List<List<Int>> = mutableListOf()
     set(value) {
         field = value
@@ -42,7 +42,9 @@ class SudokuView : View {
             color = ContextCompat.getColor(context, R.color.green2)
         }
 
-        sudokuState = SudokuParser().parse(
+        setBackgroundColor(ContextCompat.getColor(context, R.color.black))
+
+        /*sudokuState = SudokuParser().parse(
             """5 _ _ _ _ _ _ 1 _
                _ 8 7 _ 9 _ 3 _ 6
                _ _ 3 6 7 2 _ _ _
@@ -54,7 +56,6 @@ class SudokuView : View {
                _ 2 _ _ _ 3 5 _ _"""
         )
 
-        setBackgroundColor(ContextCompat.getColor(context, R.color.black))
 
         Thread {
             SudokuSolver().solve(sudokuState) { board ->
@@ -65,7 +66,7 @@ class SudokuView : View {
                 })
             }
 
-        }.start()
+        }.start()*/
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -74,6 +75,7 @@ class SudokuView : View {
         boardTop = top
         cell = min(width, height) / 9f
         halfCell = cell / 2f
+        topPadding = halfCell / 2
     }
 
     //check how are the new views in android are built
