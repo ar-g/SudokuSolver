@@ -3,7 +3,6 @@ package com.example.sudokusolver
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.os.Handler
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
@@ -16,7 +15,7 @@ class SudokuView : View {
     private var halfCell = 0f
     private var boardTop = 0
     private var topPadding = 0f
-    var sudokuState: List<List<Int>> = mutableListOf()
+    var board: List<List<Int>> = mutableListOf()
     set(value) {
         field = value
         invalidate()
@@ -91,7 +90,7 @@ class SudokuView : View {
         var curX = halfCell
         var curY = halfCell + topPadding
 
-        for (row in sudokuState) {
+        for (row in board) {
             for (num in row) {
                 if (num != 0) canvas.drawText(num.toString(), curX, curY, textPaint)
                 curX += cell

@@ -1,47 +1,53 @@
 package com.example.sudokusolver
 
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 
 //todo rewrite in courutines fashion
 //todo rewrite in flow fashion
-
-
-
-typealias OnSudokuBoardChanged = (board: List<List<Int>>) -> Unit
 //todo ObservableList vs Callback vs Flow or courutines?
 //todo Cancelling sudoku solving via courutines?
 
 //todo invalid sudoku handling is omitted for now
-class SudokuSolver() {
 
-    //todo threadSafety if many of them will be called copy ObservableList scheme
-    private var sudokuBoardChangedListener: OnSudokuBoardChanged? = null
+//todo caution regarding modifying original list
+//todo extra copies for thread safety and mutability?
 
-    suspend fun solve(board: List<List<Int>>, sudokuBoardChangedListener: OnSudokuBoardChanged) {
-        this.sudokuBoardChangedListener = sudokuBoardChangedListener
+//todo write test cases on this validation logic
+//todo check copies and references, encourage immutability where necessary
+//todo use arrays for better speed
 
-        //todo waste
-        partiallySolve(0,0, board.map { it.toMutableList() }.toMutableList())
+typealias OnSudokuBoardChanged = suspend (board: List<List<Int>>) -> Unit
 
-        this.sudokuBoardChangedListener = null
+class SudokuSolver {
+
+    fun solve(board: List<List<Int>>) = flow {
+        val mutableCopyOfBoard = board.map { row -> row.toMutableList() }.toMutableList()
+        partiallySolve(0, 0, mutableCopyOfBoard) {
+            emit(it)
+        }
     }
 
-
-    //todo caution regarding modifying original list
-    suspend fun partiallySolve(curI: Int, curJ: Int, board: MutableList<MutableList<Int>>): Boolean {
+    private suspend fun partiallySolve(
+        curI: Int,
+        curJ: Int,
+        board: MutableList<MutableList<Int>>,
+        callback: OnSudokuBoardChanged
+    ): Boolean {
         if (curI > board.lastIndex) {
-            return true//end of array and valid return true
+            return true
         }
 
-        val curNum = board[curI][curJ]
+        Timber.d("Running")
 
-        //println("Num $curNum i $curI j $curJ")
+        val curNum = board[curI][curJ]
 
         val nextI = if (curJ == board.lastIndex) curI + 1 else curI
         val nextJ = if (curJ == board.lastIndex) 0 else curJ + 1
 
-        if (curNum != 0){
-            return partiallySolve(nextI, nextJ, board)
+        if (curNum != 0) {
+            return partiallySolve(nextI, nextJ, board, callback)
         }
 
         if (curNum == 0) {
@@ -50,28 +56,22 @@ class SudokuSolver() {
 
                     board[curI][curJ] = guess
 
-                    //todo extra copies for thread safety and mutability?
-                    sudokuBoardChangedListener?.invoke(board.map { it.toList() }.toList())
+                    callback.invoke(board.map { it.toList() }.toList())
 
-                    if(partiallySolve(nextI, nextJ, board)){
+                    if (partiallySolve(nextI, nextJ, board, callback)) {
                         return true
                     }
                 }
             }
         }
 
-        //println("Backtracking")
-
         board[curI][curJ] = 0
 
         return false
     }
 
-    fun validate(curNum: Int, curI: Int, curJ: Int, board: MutableList<MutableList<Int>>): Boolean {
-        //todo write test cases on this validation logic
-        //todo check copies and references, encourage immutability where necessary
-        //todo use arrays for better speed
-        if (curNum == 0){
+    private fun validate(curNum: Int, curI: Int, curJ: Int, board: MutableList<MutableList<Int>>): Boolean {
+        if (curNum == 0) {
             return false
         }
         //validate row

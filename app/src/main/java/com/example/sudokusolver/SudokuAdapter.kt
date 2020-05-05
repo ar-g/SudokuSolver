@@ -46,6 +46,6 @@ class SudokuViewHolder(private val sudokuItemBinding: SudokuItemBinding)
 
     fun bind(model: SudokuModel) {
         sudokuItemBinding.tvName.text = model.name
-        sudokuItemBinding.sudokuView.sudokuState = model.sudoku
+        sudokuItemBinding.sudokuView.board = model.sudoku
     }
 }
