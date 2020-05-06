@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class SudokuModel(
     val id: Long,
     val name: String,
-    val sudoku: List<List<Int>>
+    val board: List<List<Int>>
 ) : Parcelable

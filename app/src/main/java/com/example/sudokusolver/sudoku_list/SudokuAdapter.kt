@@ -1,8 +1,9 @@
-package com.example.sudokusolver
+package com.example.sudokusolver.sudoku_list
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.sudokusolver.SudokuModel
 import com.example.sudokusolver.databinding.SudokuItemBinding
 
 class SudokuAdapter(private val itemClick: (SudokuModel) -> Unit) :
@@ -46,6 +47,6 @@ class SudokuViewHolder(private val sudokuItemBinding: SudokuItemBinding)
 
     fun bind(model: SudokuModel) {
         sudokuItemBinding.tvName.text = model.name
-        sudokuItemBinding.sudokuView.board = model.sudoku
+        sudokuItemBinding.sudokuView.board = model.board
     }
 }

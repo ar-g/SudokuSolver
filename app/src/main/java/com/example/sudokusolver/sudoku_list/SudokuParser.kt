@@ -1,6 +1,8 @@
-package com.example.sudokusolver
+package com.example.sudokusolver.sudoku_list
 
-class SudokuParser() {
+import javax.inject.Inject
+
+class SudokuParser @Inject constructor() {
     fun parse(sudoku: String): List<List<Int>> {
         return sudoku
             .splitToSequence("\n")

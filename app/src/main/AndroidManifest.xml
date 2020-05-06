@@ -14,14 +14,14 @@
     android:theme="@style/Theme.App"
     android:name=".App"
     >
-    <activity android:name=".SudokusActivity">
+    <activity android:name=".sudoku_list.SudokuListActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".SudokuSolverActivity" />
+    <activity android:name=".solver.SudokuSolverActivity" />
   </application>
 
 </manifest>

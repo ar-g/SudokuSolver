@@ -6,7 +6,7 @@
   android:orientation="horizontal"
   android:padding="16dp">
 
-  <com.example.sudokusolver.SudokuView
+  <com.example.sudokusolver.solver.SudokuView
     android:id="@+id/sudokuView"
     android:layout_width="100dp"
     android:layout_height="100dp"/>

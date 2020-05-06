@@ -1,4 +1,4 @@
-package com.example.sudokusolver
+package com.example.sudokusolver.solver
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.example.sudokusolver.R
 import kotlin.math.min
 
 class SudokuView : View {

@@ -1,8 +1,8 @@
-package com.example.sudokusolver
+package com.example.sudokusolver.solver
 
-import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
+import javax.inject.Inject
 
 //todo rewrite in courutines fashion
 //todo rewrite in flow fashion
@@ -20,7 +20,7 @@ import timber.log.Timber
 
 typealias OnSudokuBoardChanged = suspend (board: List<List<Int>>) -> Unit
 
-class SudokuSolver {
+class SudokuSolver @Inject constructor() {
 
     fun solve(board: List<List<Int>>) = flow {
         val mutableCopyOfBoard = board.map { row -> row.toMutableList() }.toMutableList()
