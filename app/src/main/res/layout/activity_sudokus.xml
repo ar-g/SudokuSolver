@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:orientation="vertical"
   android:background="@color/grey"
-  >
+  android:orientation="vertical">
 
   <androidx.appcompat.widget.Toolbar
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dark_grey"
-    app:titleTextColor="@color/green"
-    app:title="@string/sudoku_solver"/>
+    app:title="@string/sudoku_solver"
+    app:titleTextColor="@color/green" />
 
-  <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv"
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/srl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    >
 
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

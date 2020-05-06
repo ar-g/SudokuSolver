@@ -2,14 +2,13 @@ package com.example.sudokusolver.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.sudokusolver.Api
-import com.example.sudokusolver.SudokuDb
-import com.example.sudokusolver.solver.di.SudokuSolverComponent
-import com.example.sudokusolver.sudoku_list.di.SudokuListComponent
-import dagger.BindsInstance
-import dagger.Component
-import dagger.Module
-import dagger.Provides
+import com.example.sudokusolver.data.api.Api
+import com.example.sudokusolver.data.db.SudokuDb
+import com.example.sudokusolver.presentation.solver.di.SudokuSolverComponent
+import com.example.sudokusolver.domain.repository.SudokuRepository
+import com.example.sudokusolver.data.repository.SudokuRepositoryImpl
+import com.example.sudokusolver.presentation.sudoku_list.di.SudokuListComponent
+import dagger.*
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +18,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        AppModuleBinds::class,
         ViewModelBuilderModule::class
     ]
 )
@@ -53,4 +53,13 @@ object AppModule {
     @Singleton
     @Provides
     fun provideIoDispatcher() = Dispatchers.IO
+}
+
+
+@Module
+abstract class AppModuleBinds {
+
+    @Singleton
+    @Binds
+    abstract fun bindsRepository(sudokuRepositoryImpl: SudokuRepositoryImpl) : SudokuRepository
 }

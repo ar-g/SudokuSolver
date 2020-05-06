@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">SudokuSolver</string>
   <string name="sudoku_solver">Sudoku solver</string>
+  <string name="solution_found">Solution found!</string>
 </resources>
