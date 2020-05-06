@@ -1,7 +1,9 @@
 package com.example.sudokusolver.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.sudokusolver.Api
+import com.example.sudokusolver.SudokuDb
 import com.example.sudokusolver.solver.di.SudokuSolverComponent
 import com.example.sudokusolver.sudoku_list.di.SudokuListComponent
 import dagger.BindsInstance
@@ -41,6 +43,12 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Api::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDb(context: Context) =
+        Room.databaseBuilder(context, SudokuDb::class.java, "sudoku-db")
+            .build()
 
     @Singleton
     @Provides

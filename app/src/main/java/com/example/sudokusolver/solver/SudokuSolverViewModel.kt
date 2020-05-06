@@ -21,6 +21,7 @@ class SudokuSolverViewModel @Inject constructor(
         if (!started) { //todo errors if any?
             started = true
             viewModelScope.launch {
+                //todo threading of the flow?
                 sudokuSolver.solve(board)
                     .onEach { if (animate) delay(1000) }
                     .collect { boardLiveData.value = it }
