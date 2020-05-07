@@ -1,6 +1,6 @@
 ## Description
 
-<img src="/imgs/demo.gif" width="280" align="right" hspace="20">
+<img src="/imgs/demo.gif" width="240" align="right" hspace="20">
 
 This project is to showcase approach to architecture and design an app.  
 It uncovers modern techniques and libraries to design and developAndroid  
@@ -8,7 +8,6 @@ applications. This project might appear simple but it packs just enough
 functionality to showcase and to not complicate modern approach.
 
 ## Tech stack
-
 
 - Coroutines - background operations
 - Dagger2 - dependency injection
@@ -21,6 +20,9 @@ functionality to showcase and to not complicate modern approach.
   - Mockito + Mockito-Kotlin
 
 ## Architecture
+
+This project follows the principles of Clean Architecture any source of data
+including API, DB, UI are separated from each other by the middle layer.
 
 ![Architecture](/imgs/arch.jpg)
 
@@ -41,12 +43,12 @@ obvious but tools are there. Structured concurrency is awesome!
 ## Roadmap
 - Improve UI design
 - Different color for guess
-- Better animation of SudokuView
 - Improve navigation pattern
+- Better animation of SudokuView
 - Invalid sudoku handling
 - OCR sudoku handling
 - UI tests
 - CI
 - Static analysers
-- Proguard Rules
+- R8 Rules
 - Split into feature modules
