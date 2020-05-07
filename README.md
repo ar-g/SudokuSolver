@@ -1,5 +1,6 @@
 ## Description
-<img src="/imgs/demo.gif" width="300" align="right" hspace="20">
+
+<img src="/imgs/demo.gif" width="280" align="right" hspace="20">
 
 This project is to showcase approach to architecture and design an app.  
 It uncovers modern techniques and libraries to design and developAndroid  
