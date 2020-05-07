@@ -28,6 +28,9 @@ including API, DB, UI are separated from each other by the middle layer.
 
 ## Dependency injection
 
+Dagger now is the industry standard for dependency injection recognized  
+by Google, stable and allows to scale project easily as it grows.
+
 ![Dependency injection](/imgs/di.jpg)
 
 ## Sudoku solver algorithm
