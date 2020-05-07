@@ -2,6 +2,8 @@ package com.arg.sudokusolver.presentation.solver.di
 
 import androidx.lifecycle.ViewModel
 import com.arg.sudokusolver.di.ViewModelKey
+import com.arg.sudokusolver.domain.operations.SudokuSolver
+import com.arg.sudokusolver.domain.operations.SudokuSolverImpl
 import com.arg.sudokusolver.presentation.solver.SudokuSolverActivity
 import com.arg.sudokusolver.presentation.solver.SudokuSolverViewModel
 import dagger.Binds
@@ -24,5 +26,8 @@ abstract class SudokuSolverModule {
     @Binds
     @IntoMap
     @ViewModelKey(SudokuSolverViewModel::class)
-    abstract fun bindViewModel(viewmodel: SudokuSolverViewModel): ViewModel
+    abstract fun bindsViewModel(viewmodel: SudokuSolverViewModel): ViewModel
+
+    @Binds
+    abstract fun bindsSolver(sudokuSolverImpl: SudokuSolverImpl): SudokuSolver
 }

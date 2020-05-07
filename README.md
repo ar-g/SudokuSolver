@@ -1,32 +1,51 @@
-![](demo.gif)
+# Description
 
+This project is to showcase approach to architecture and design an app.  
+It uncovers modern techniques and libraries to design and developAndroid  
+applications. This project might appear simple but it packs just enough  
+functionality to showcase and to not complicate modern approach.
 
-For the last 6 years I was using RxJava starting from pre 1.0 version, but today I'm going to try and use courutines so don't judge harshly as I'm new here
+## Tech stack
 
-Structured concurrency is really awesome
+<img src="/imgs/demo.gif" width="336" align="right" hspace="20">
 
-On the other hand I still may use it non-idiomatic rx-like way, I'm still learning
+- Coroutines - background operations
+- Dagger2 - dependency injection
+- Retrofit - networking
+- Jetpack
+  - LiveData - lifecycle aware streams to notify UI about state changes
+  - ViewModel - manage presentation data in lifecycle and config changes
+  aware manner
+- Testing
+  - Mockito + Mockito-Kotlin
 
+## Architecture
 
-I would write my own repository, alpha version is not good, but still interesting to see what they got
+![Architecture](/imgs/arch.jpg)
 
+## Dependency injection
 
-If you have any questions regarding implementation, please rise the issue here. I want to make this sample long-lasting and maintainable.
+![Dependency injection](/imgs/di.jpg)
 
+## Sudoku solver algorithm
 
-Didn't do DI wiring for quite awhile, it didn't get better
+![Algorithm](/imgs/algo.jpg)
 
-//todo scoping is done by the viewmodel lib
+## Implementation thoughts
 
-# todo 2 pics with and without DI
+This time I wend deep with coroutines, and the approach is very interesting.
+The design is very slick although error-handling and cancelling is not that
+obvious but tools are there. Structured concurrency is awesome!
 
-//todo coroutine dispatchers and viewmodel rules
-
-//todo tests
-//todo write test cases on this validation logic
-//todo invalid sudoku handling is omitted for now
-
-//todo Roadmap
-//todo different color for guess
-//todo extract navigation as sideeffect where it shoult sit in MVVM
-//todo recycling of sudoku views and diffing
+## Roadmap
+- Improve UI design
+- Different color for guess
+- Better animation of SudokuView
+- Improve navigation pattern
+- Invalid sudoku handling
+- OCR sudoku handling
+- UI tests
+- CI
+- Static analysers
+- Proguard Rules
+- Split into feature modules
