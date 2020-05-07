@@ -1,4 +1,5 @@
 # Description
+<img src="/imgs/demo.gif" width="336" align="right" hspace="20">
 
 This project is to showcase approach to architecture and design an app.  
 It uncovers modern techniques and libraries to design and developAndroid  
@@ -7,7 +8,6 @@ functionality to showcase and to not complicate modern approach.
 
 ## Tech stack
 
-<img src="/imgs/demo.gif" width="336" align="right" hspace="20">
 
 - Coroutines - background operations
 - Dagger2 - dependency injection
