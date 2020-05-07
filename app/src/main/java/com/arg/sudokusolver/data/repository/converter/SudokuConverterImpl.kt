@@ -1,9 +1,10 @@
-package com.arg.sudokusolver.data.converter
+package com.arg.sudokusolver.data.repository.converter
 
+import com.arg.sudokusolver.domain.repository.converter.SudokuConverter
 import javax.inject.Inject
 
-class SudokuCoverter @Inject constructor() {
-    fun fromString(sudoku: String): List<List<Int>> {
+class SudokuConverterImpl @Inject constructor() : SudokuConverter {
+    override fun fromString(sudoku: String): List<List<Int>> {
         return sudoku
             .splitToSequence("\n")
             .map { row -> row.trimStart() }
@@ -14,7 +15,7 @@ class SudokuCoverter @Inject constructor() {
             .toList()
     }
 
-    fun toString(board: List<List<Int>>): String {
+    override fun toString(board: List<List<Int>>): String {
         return board.joinToString(separator = "\n") { row ->
             row.joinToString(separator = " ")
         }

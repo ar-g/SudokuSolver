@@ -17,7 +17,11 @@ class SudokuSolveOperations @Inject constructor(
                 if (status is SudokuSolutionStatus.Solution) {
                     sudokuRepository.update(model.id, model.name, status.board)
                 }
-                if (animate) delay(30)
+                if (animate) delay(ANIMATION_DELAY)
             }
+    }
+
+    companion object {
+        private const val ANIMATION_DELAY = 30L
     }
 }

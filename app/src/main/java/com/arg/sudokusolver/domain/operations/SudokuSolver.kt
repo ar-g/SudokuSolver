@@ -2,6 +2,7 @@ package com.arg.sudokusolver.domain.operations
 
 import com.arg.sudokusolver.domain.operations.SudokuSolutionStatus.*
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 class SudokuSolver @Inject constructor() {
@@ -17,6 +18,8 @@ class SudokuSolver @Inject constructor() {
         board: MutableList<MutableList<Int>>,
         callback: suspend (board: SudokuSolutionStatus) -> Unit
     ): Boolean {
+        yield()//todo test
+
         if (curI > board.lastIndex) {
             callback.invoke(Solution(copyOfBoard(board)))
             return true
@@ -33,7 +36,7 @@ class SudokuSolver @Inject constructor() {
 
         if (curNum == 0) {
             for (guess in 1..9) {
-                if (validate(guess, curI, curJ, board)) {
+                if (validateCell(guess, curI, curJ, board)) {
 
                     board[curI][curJ] = guess
 
@@ -51,24 +54,24 @@ class SudokuSolver @Inject constructor() {
         return false
     }
 
-    private fun validate(curNum: Int, curI: Int, curJ: Int, board: MutableList<MutableList<Int>>): Boolean {
-        if (curNum == 0) {
+    fun validateCell(guess: Int, curI: Int, curJ: Int, board: List<List<Int>>): Boolean {
+        if (guess == 0) {
             return false
         }
         //validate row
         for ((j, num) in board[curI].withIndex()) {
-            if (j != curJ && num == curNum) return false
+            if (j != curJ && num == guess) return false
         }
         //validate column
         for (i in 0..board.lastIndex) {
-            if (i != curI && board[i][curJ] == curNum) return false
+            if (i != curI && board[i][curJ] == guess) return false
         }
         //validate subarray
         val subI = curI / 3 * 3
         val subJ = curJ / 3 * 3
         for (i in subI..subI + 2) {
             for (j in subJ..subJ + 2) {
-                if (i != curI && j != curJ && board[i][j] == curNum) return false
+                if (i != curI && j != curJ && board[i][j] == guess) return false
             }
         }
         return true

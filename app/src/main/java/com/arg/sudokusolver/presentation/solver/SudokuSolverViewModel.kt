@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class SudokuSolverViewModel @Inject constructor(
-    private val sudokuSolveOperations: SudokuSolveOperations
+    private val sudokuSolveOperations: SudokuSolveOperations,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val boardLiveData: MutableLiveData<SudokuSolutionStatus> =
@@ -20,7 +21,7 @@ class SudokuSolverViewModel @Inject constructor(
     fun solveSudoku(model: SudokuModel) {
         viewModelScope.launch {
             sudokuSolveOperations.solveSudoku(model)
-                .flowOn(Dispatchers.IO)
+                .flowOn(ioDispatcher)
                 .collect { boardLiveData.value = it }
         }
     }

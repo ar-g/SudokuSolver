@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.arg.sudokusolver.domain.model.Lce
 import com.arg.sudokusolver.domain.model.SudokuModel
 import com.arg.sudokusolver.domain.operations.SudokuListOperations
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SudokuListViewModel @Inject constructor(
-    private val sudokuListOperations: SudokuListOperations
+    private val sudokuListOperations: SudokuListOperations,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val sudokusLiveData =
@@ -22,12 +24,8 @@ class SudokuListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             sudokuListOperations.getAll()
-                .flowOn(Dispatchers.IO)
-                .collect {
-                    viewModelScope.launch {
-                        sudokusLiveData.value = it
-                    }
-                }
+                .flowOn(ioDispatcher)
+                .collect { sudokusLiveData.value = it }
         }
     }
 }

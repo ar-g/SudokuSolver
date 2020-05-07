@@ -8,6 +8,7 @@ import com.arg.sudokusolver.data.db.entity.SudokuDbEnity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
+
 interface SudokuDao {
     @Query("SELECT * FROM sudoku")
     fun getAll(): Flow<List<SudokuDbEnity>>

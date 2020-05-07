@@ -3,6 +3,8 @@ package com.arg.sudokusolver.di
 import android.content.Context
 import androidx.room.Room
 import com.arg.sudokusolver.data.api.Api
+import com.arg.sudokusolver.domain.repository.converter.SudokuConverter
+import com.arg.sudokusolver.data.repository.converter.SudokuConverterImpl
 import com.arg.sudokusolver.data.db.SudokuDb
 import com.arg.sudokusolver.presentation.solver.di.SudokuSolverComponent
 import com.arg.sudokusolver.domain.repository.SudokuRepository
@@ -52,6 +54,11 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideSudokuDao(db: SudokuDb) =
+        db.sudokuDao()
+
+    @Singleton
+    @Provides
     fun provideIoDispatcher() = Dispatchers.IO
 }
 
@@ -62,4 +69,8 @@ abstract class AppModuleBinds {
     @Singleton
     @Binds
     abstract fun bindsRepository(sudokuRepositoryImpl: SudokuRepositoryImpl): SudokuRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindsConverter(sudokuRepositoryImpl: SudokuConverterImpl): SudokuConverter
 }
