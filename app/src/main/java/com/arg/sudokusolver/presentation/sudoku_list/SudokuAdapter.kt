@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.arg.sudokusolver.domain.model.SudokuModel
 import com.arg.sudokusolver.databinding.SudokuItemBinding
 
-class SudokuAdapter(private val itemClick: (SudokuModel) -> Unit) :
+internal class SudokuAdapter(private val onItemClick: (SudokuModel) -> Unit) :
     RecyclerView.Adapter<SudokuViewHolder>() {
 
     private val data = mutableListOf<SudokuModel>()
@@ -18,7 +18,7 @@ class SudokuAdapter(private val itemClick: (SudokuModel) -> Unit) :
         binding.root.setOnClickListener {
             val position = postsViewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                itemClick(data[position])
+                onItemClick(data[position])
             }
         }
 

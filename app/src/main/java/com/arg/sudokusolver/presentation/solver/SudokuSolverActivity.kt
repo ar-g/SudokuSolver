@@ -1,5 +1,7 @@
 package com.arg.sudokusolver.presentation.solver
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -13,10 +15,6 @@ import com.arg.sudokusolver.domain.operations.SudokuSolutionStatus.Solution
 import javax.inject.Inject
 
 class SudokuSolverActivity : AppCompatActivity() {
-    companion object {
-        const val BUNDLE_KEY = "SudokuSolverActivity"
-    }
-
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by viewModels<SudokuSolverViewModel> { factory }
@@ -49,6 +47,17 @@ class SudokuSolverActivity : AppCompatActivity() {
 
                 viewModel.solveSudoku(model)
             }
+        }
+    }
+
+    companion object {
+        const val BUNDLE_KEY = "SudokuSolverActivity"
+
+        fun navigateToSudokuSolver(context: Context, model: SudokuModel) {
+            context.startActivity(
+                Intent(context, SudokuSolverActivity::class.java)
+                    .putExtra(BUNDLE_KEY, model)
+            )
         }
     }
 }

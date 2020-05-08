@@ -9,31 +9,17 @@ import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.reflect.KClass
 
+@Suppress("UNCHECKED_CAST")
 class SudokuViewModelFactory @Inject constructor(
     private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        var creator: Provider<out ViewModel>? = creators[modelClass]
-        if (creator == null) {
-            for ((key, value) in creators) {
-                if (modelClass.isAssignableFrom(key)) {
-                    creator = value
-                    break
-                }
-            }
-        }
-        if (creator == null) {
-            throw IllegalArgumentException("Unknown model class: $modelClass")
-        }
-        try {
-            @Suppress("UNCHECKED_CAST")
-            return creator.get() as T
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+        return creators.entries
+            .first { (key, _) -> modelClass.isAssignableFrom(key) }
+            .component2()
+            .get() as T
     }
 }
-
 
 @Module
 abstract class ViewModelBuilderModule {

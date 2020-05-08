@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import com.arg.sudokusolver.R
 import kotlin.math.min
 
-class SudokuView : View {
+internal class SudokuView : View {
     private lateinit var textPaint: TextPaint
     private val boardSize = 9
     private var cell = 0f

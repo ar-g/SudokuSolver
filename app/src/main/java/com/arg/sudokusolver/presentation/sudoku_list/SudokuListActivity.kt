@@ -1,16 +1,16 @@
 package com.arg.sudokusolver.presentation.sudoku_list
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arg.sudokusolver.App
-import com.arg.sudokusolver.domain.model.Lce
-import com.arg.sudokusolver.presentation.solver.SudokuSolverActivity
 import com.arg.sudokusolver.databinding.ActivitySudokusBinding
+import com.arg.sudokusolver.domain.model.Lce
+import com.arg.sudokusolver.presentation.solver.SudokuSolverActivity.Companion.navigateToSudokuSolver
 import javax.inject.Inject
 
 class SudokuListActivity : AppCompatActivity() {
@@ -20,7 +20,6 @@ class SudokuListActivity : AppCompatActivity() {
     private val viewModel by viewModels<SudokuListViewModel> { factory }
 
     private lateinit var sudokuAdapter: SudokuAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +32,9 @@ class SudokuListActivity : AppCompatActivity() {
         val binding = ActivitySudokusBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sudokuAdapter = SudokuAdapter { model ->
-            startActivity(
-                Intent(this, SudokuSolverActivity::class.java)
-                    .putExtra(SudokuSolverActivity.BUNDLE_KEY, model)
-            )
-        }
+        sudokuAdapter = SudokuAdapter(onItemClick = { model ->
+            navigateToSudokuSolver(this, model)
+        })
         binding.srl.isEnabled = false
         binding.rv.apply {
             layoutManager = LinearLayoutManager(this@SudokuListActivity)

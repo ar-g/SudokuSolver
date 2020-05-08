@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arg.sudokusolver.databinding.SudokuItemBinding
 import com.arg.sudokusolver.domain.model.SudokuModel
 
-class SudokuViewHolder(private val sudokuItemBinding: SudokuItemBinding) :
+internal class SudokuViewHolder(private val sudokuItemBinding: SudokuItemBinding) :
     RecyclerView.ViewHolder(sudokuItemBinding.root) {
 
     fun bind(model: SudokuModel) {
