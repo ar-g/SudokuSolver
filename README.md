@@ -12,6 +12,7 @@ functionality to showcase and to not complicate modern approach.
 - Coroutines - background operations
 - Dagger2 - dependency injection
 - Retrofit - networking
+- Room - data storage
 - Jetpack
   - LiveData - lifecycle aware streams to notify UI about state changes
   - ViewModel - manage presentation data in lifecycle and config changes

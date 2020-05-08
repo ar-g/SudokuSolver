@@ -9,10 +9,10 @@ import com.arg.sudokusolver.domain.model.Lce.*
 import com.arg.sudokusolver.domain.model.SudokuModel
 import com.arg.sudokusolver.domain.repository.converter.SudokuConverter
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Test
 import java.lang.Exception
@@ -23,64 +23,70 @@ class SudokuRepositoryImplTest {
         on { toString(any()) } doReturn ""
     }
 
-    val mockDao = mock<SudokuDao> {
-        on { getAll() } doReturn flow {
-            emit(emptyList<SudokuDbEnity>())
-            emit(emptyList<SudokuDbEnity>())
-        }
-    }
+    val fakeDao = object : SudokuDao {
+        private val channel = ConflatedBroadcastChannel<List<SudokuDbEnity>>()
 
-    @Test
-    fun verifyBehaviourOfGetAll() = runBlocking {
-        val fakeApi = spy(object : Api {
-            override suspend fun puzzles(): List<SudokuResponse> {
-               return emptyList()
+        override fun getAll(): Flow<List<SudokuDbEnity>> {
+            return channel.asFlow().apply {
+                channel.offer(emptyList())
             }
-        })
-        val repository = SudokuRepositoryImpl(mockConverter, fakeApi, mockDao)
-        repository.getAll().collect {}
+        }
 
-        verify(fakeApi, times(1)).puzzles()
-        verify(mockDao, times(1)).deleteAll()
-        verify(mockDao, times(1)).insertAll(any())
-        verify(mockDao, times(1)).getAll()
+        override suspend fun insertAll(sudokuList: List<SudokuDbEnity>) {
+            channel.offer(emptyList())
+        }
 
-        return@runBlocking Unit
+        override suspend fun update(sudokuDbEnity: SudokuDbEnity) {}
+        override suspend fun deleteAll() {}
     }
-
 
     @Test
     fun verifyProperStatesAreEmitted() = runBlocking {
+        //given
         val fakeApi = spy(object : Api {
             override suspend fun puzzles(): List<SudokuResponse> {
                 return emptyList()
             }
         })
-        val repository = SudokuRepositoryImpl(mockConverter, fakeApi, mockDao)
-        val list = mutableListOf<Lce<List<SudokuModel>>>()
-        repository.getAll().collect { list.add(it) }
+        val repository = createRepository(fakeApi)
+        val result = mutableListOf<Lce<List<SudokuModel>>>()
 
-        assertEquals(
-            mutableListOf<Lce<List<SudokuModel>>>(Loading(), Content(emptyList()), Content(emptyList())),
-            list
+        //when
+        repository.getAll().take(3).collect { result.add(it) }
+
+        //then
+        val expectedStates = mutableListOf<Lce<List<SudokuModel>>>(
+            Content(emptyList()),
+            Loading(),
+            Content(emptyList())
         )
+        assertEquals(expectedStates, result)
     }
 
     @Test
     fun verifyErrorStateIsEmitted() = runBlocking {
+        //given
         val message = "interesting"
         val fakeApi = spy(object : Api {
             override suspend fun puzzles(): List<SudokuResponse> {
                 throw Exception(message)
             }
         })
-        val repository = SudokuRepositoryImpl(mockConverter, fakeApi, mockDao)
-        val list = mutableListOf<Lce<List<SudokuModel>>>()
-        repository.getAll().collect { list.add(it) }
+        val repository = createRepository(fakeApi)
+        val result = mutableListOf<Lce<List<SudokuModel>>>()
 
-        assertEquals(
-            mutableListOf<Lce<List<SudokuModel>>>(Loading(), Error(message), Content(emptyList()), Content(emptyList())),
-            list
+        //when
+        repository.getAll().take(3).collect { result.add(it) }
+
+        //then
+        val expectedStates = mutableListOf<Lce<List<SudokuModel>>>(
+            Content(emptyList()),
+            Loading(),
+            Error(message)
         )
+        assertEquals(expectedStates, result)
     }
+
+    private fun createRepository(fakeApi: Api) =
+        SudokuRepositoryImpl(mockConverter, fakeApi, fakeDao, Dispatchers.Default)
 }
