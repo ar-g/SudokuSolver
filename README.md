@@ -2,10 +2,11 @@
 
 <img src="/imgs/demo.gif" width="240" align="right" hspace="20">
 
-This project is to showcase approach to architecture and design an app.  
-It uncovers modern techniques and libraries to design and developAndroid  
-applications. This project might appear simple but it packs just enough  
-functionality to showcase and to not complicate modern approach.
+This project is to showcase the modern approach to the architecture and  
+design of the Android project. It shows how to leverage libraries and  
+frameworks when developing an Android application. This project might  
+appear simple but it packs enough functionality to uncover and not  
+complicate things too much.
 
 ## Tech stack
 
@@ -22,15 +23,16 @@ functionality to showcase and to not complicate modern approach.
 
 ## Architecture
 
-This project follows the principles of Clean Architecture any source of data
-including API, DB, UI are separated from each other by the middle layer.
+This project follows the principles of Clean Architecture any source of  
+data including API, DB, UI is separated from each other by the middle  
+layer.
 
 ![Architecture](/imgs/arch.jpg)
 
 ## Dependency injection
 
-Dagger now is the industry standard for dependency injection recognized  
-by Google, stable and allows to scale project easily as it grows.
+Dagger is the industry standard for dependency injection recognized by  
+Google, stable and allows to scale projects easily as they grow.
 
 ![Dependency injection](/imgs/di.jpg)
 
@@ -40,9 +42,10 @@ by Google, stable and allows to scale project easily as it grows.
 
 ## Implementation thoughts
 
-This time I wend deep with coroutines, and the approach is very interesting.
-The design is very slick although error-handling and cancelling is not that
-obvious but tools are there. Structured concurrency is awesome!
+This time I went deep with coroutines, and the approach is very  
+interesting. The design is very slick although error-handling and  
+canceling is not that obvious but tools are there. Structured  
+concurrency is awesome!
 
 ## Roadmap
 - Improve UI design
@@ -53,6 +56,6 @@ obvious but tools are there. Structured concurrency is awesome!
 - OCR sudoku handling
 - UI tests
 - CI
-- Static analysers
+- Static analyzers
 - R8 Rules
 - Split into feature modules
