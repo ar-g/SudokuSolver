@@ -14,8 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SudokuListViewModel @Inject constructor(
-    private val sudokuListOperations: SudokuListOperations,
-    private val ioDispatcher: CoroutineDispatcher
+    private val sudokuListOperations: SudokuListOperations
 ) : ViewModel() {
 
     val sudokusLiveData =
@@ -24,7 +23,6 @@ class SudokuListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             sudokuListOperations.getAll()
-                .flowOn(ioDispatcher)
                 .collect { sudokusLiveData.value = it }
         }
     }

@@ -2,14 +2,17 @@ package com.arg.sudokusolver.domain.operations
 
 import com.arg.sudokusolver.domain.model.SudokuModel
 import com.arg.sudokusolver.domain.repository.SudokuRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class SudokuSolveOperations @Inject constructor(
     private val sudokuSolver: SudokuSolver,
-    private val sudokuRepository: SudokuRepository
+    private val sudokuRepository: SudokuRepository,
+    private val dispatcherIO: CoroutineDispatcher
 ) {
     fun solveSudoku(model: SudokuModel, animate: Boolean = true): Flow<SudokuSolutionStatus> {
         return sudokuSolver.solve(model.board)
@@ -19,6 +22,7 @@ class SudokuSolveOperations @Inject constructor(
                 }
                 if (animate) delay(ANIMATION_DELAY)
             }
+            .flowOn(dispatcherIO)
     }
 
     companion object {
